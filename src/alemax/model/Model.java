@@ -12,6 +12,7 @@ import alemax.vox.VoxChunkMain;
 import alemax.vox.VoxChunkNGRP;
 import alemax.vox.VoxChunkNSHP;
 import alemax.vox.VoxChunkNTRN;
+import alemax.vox.VoxChunkRGBA;
 import alemax.vox.VoxChunkSize;
 import alemax.vox.VoxChunkXYZI;
 import alemax.vox.VoxRotation;
@@ -34,6 +35,8 @@ public class Model {
 				initialChunks.get(initialChunks.size() - 1).setSize(((VoxChunkSize) voxChunk).sizeX, ((VoxChunkSize) voxChunk).sizeY, ((VoxChunkSize) voxChunk).sizeZ);
 			} else if(voxChunk instanceof VoxChunkXYZI) {
 				initialChunks.get(initialChunks.size() - 1).setVoxels(((VoxChunkXYZI) voxChunk).voxels);
+			} else if(voxChunk instanceof VoxChunkRGBA) {
+				this.colors = ((VoxChunkRGBA) voxChunk).palette;
 			}
 		}
 		
