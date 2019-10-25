@@ -2,9 +2,6 @@ package alemax.vox;
 
 import java.util.ArrayList;
 
-import org.apache.commons.math3.linear.MatrixUtils;
-import org.apache.commons.math3.linear.RealMatrix;
-
 import alemax.ByteHandler;
 
 public abstract class VoxChunk extends VoxPart {
