@@ -1,4 +1,4 @@
-package alemax.vox;
+package alemax.model;
 
 public class Color {
 	

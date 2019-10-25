@@ -1,6 +1,7 @@
 package alemax.vox;
 
 import alemax.ByteHandler;
+import alemax.model.Voxel;
 
 public class VoxChunkXYZI extends VoxChunk {
 	
@@ -15,8 +16,8 @@ public class VoxChunkXYZI extends VoxChunk {
 		for(int i = 0; i < voxels.length; i++) {
 			voxels[i] = new Voxel();
 			voxels[i].x = ByteHandler.getInt8(ByteHandler.getSubArray(voxData, index++, 1));
-			voxels[i].z = ByteHandler.getInt8(ByteHandler.getSubArray(voxData, index++, 1)); //And again: the swap of z and y is intended! Its for the update of the gravitational axis from z to y
 			voxels[i].y = ByteHandler.getInt8(ByteHandler.getSubArray(voxData, index++, 1));
+			voxels[i].z = ByteHandler.getInt8(ByteHandler.getSubArray(voxData, index++, 1));
 			voxels[i].i = ByteHandler.getInt8(ByteHandler.getSubArray(voxData, index++, 1));
 		}
 		
