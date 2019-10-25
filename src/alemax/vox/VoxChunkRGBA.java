@@ -1,4 +1,4 @@
-package vox;
+package alemax.vox;
 
 import alemax.ByteHandler;
 
@@ -12,6 +12,7 @@ public class VoxChunkRGBA extends VoxChunk {
 		palette = new Color[256];
 		
 		for(int i = 0; i < palette.length; i++) {
+			palette[i] = new Color();
 			palette[i].R = ByteHandler.getInt8(ByteHandler.getSubArray(voxData, index++, 1));
 			palette[i].G = ByteHandler.getInt8(ByteHandler.getSubArray(voxData, index++, 1));
 			palette[i].B = ByteHandler.getInt8(ByteHandler.getSubArray(voxData, index++, 1));

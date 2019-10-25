@@ -1,4 +1,4 @@
-package vox;
+package alemax.vox;
 
 public abstract class VoxPart {
 	
