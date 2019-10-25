@@ -13,11 +13,11 @@ public class ByteHandler {
 	}
 	
 	//Actually useless...
-	public static int getInt8(byte[] bytes) {
+	public static byte getInt8(byte[] bytes) {
 		if(bytes.length == 1) {
 			return bytes[0];
 		}
-		return 0;
+		return (byte) 0;
 	}
 	
 	public static String getString(byte[] bytes) {
