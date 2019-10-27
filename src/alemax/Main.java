@@ -1,5 +1,7 @@
 package alemax;
 
+import org.lwjgl.glfw.GLFW;
+
 import alemax.model.Chunk;
 import alemax.model.Model;
 import alemax.model.Voxel;
@@ -32,6 +34,12 @@ public class Main {
 			long time = System.nanoTime();
 			window.refresh();
 			
+			System.out.println(window.getWidth() + "\t" + window.getHeight());
+			
+			if(window.getInput().isKeyDown(GLFW.GLFW_KEY_ESCAPE)) {
+				break;
+			}
+			
 			/*
 			long currentFrame = System.nanoTime();
 			System.out.println( 1_000_000_000 / (currentFrame - lastFrame));
@@ -39,7 +47,7 @@ public class Main {
 			*/
 		}
 		
-
+		window.close();
 		
 	}
 
