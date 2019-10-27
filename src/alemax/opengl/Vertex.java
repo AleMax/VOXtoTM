@@ -12,7 +12,7 @@ public class Vertex {
 	Vector4f color;
 	
 	
-	public Vertex(Vector3f position) {
+	public Vertex(Vector3f position, Vector4f color) {
 		this.position = position;
 		this.normal = normal;
 		this.color = color;

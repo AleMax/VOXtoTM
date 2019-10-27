@@ -31,6 +31,7 @@ public class Main {
 
 		}
 		
+		modelView.destroy();
 		window.close();
 		
 	}

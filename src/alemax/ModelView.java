@@ -1,6 +1,7 @@
 package alemax;
 
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 import alemax.opengl.ModelRenderer;
 import alemax.opengl.Renderable;
@@ -19,7 +20,11 @@ public class ModelView {
 		shader.compile();
 		this.renderer = new ModelRenderer(shader);
 		
-		Vertex[] vertices = {new Vertex(new Vector3f(-0.5f, 0.5f, 0f)), new Vertex(new Vector3f(0.5f, 0.5f, 0f)), new Vertex(new Vector3f(0.5f, -0.5f, 0f)), new Vertex(new Vector3f(-0.5f, -0.5f, 0f))};
+		Vertex[] vertices = {
+				new Vertex(new Vector3f(-0.5f, 0.5f, 0f), new Vector4f(1f, 0f, 0f, 1f)), 
+				new Vertex(new Vector3f(0.5f, 0.5f, 0f), new Vector4f(0f, 1f, 0f, 1f)), 
+				new Vertex(new Vector3f(0.5f, -0.5f, 0f), new Vector4f(0f, 0f, 1f, 1f)), 
+				new Vertex(new Vector3f(-0.5f, -0.5f, 0f), new Vector4f(1f, 1f, 0f, 1f))};
 		int[] indices = {0, 3, 1, 1, 3, 2 };
 		model = new Renderable(vertices, indices);
 		model.loadToMemory();
@@ -30,6 +35,11 @@ public class ModelView {
 		
 		renderer.renderModel(model);
 		
+	}
+	
+	public void destroy() {
+		model.unload();
+		shader.delete();
 	}
 	
 }
