@@ -4,22 +4,25 @@ import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWCursorPosCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWMouseButtonCallback;
+import org.lwjgl.glfw.GLFWScrollCallback;
 
 public class Input {
 	
 	private boolean[] keys = new boolean[GLFW.GLFW_KEY_LAST + 1];
 	private boolean[] buttons = new boolean[GLFW.GLFW_MOUSE_BUTTON_LAST + 1];
 	private double mouseX, mouseY;
+	private double scrollX, scrollY;
 	
 	private GLFWKeyCallback keyboard;
 	private GLFWCursorPosCallback cursor;
 	private GLFWMouseButtonCallback mouse;
+	private GLFWScrollCallback scroll;
 	
-	private long window;
+	//private long window;
 	
 	public Input(long window) {	
 		
-		this.window = window;
+		//this.window = window;
 		
 		keyboard = new GLFWKeyCallback() {
 			@Override
@@ -43,15 +46,24 @@ public class Input {
 			}
 		};
 		
+		scroll = new GLFWScrollCallback() {
+			public void invoke(long window, double xoffset, double yoffset) {
+				scrollX += xoffset;
+				scrollY += yoffset;
+			}
+		};
+		
 		GLFW.glfwSetKeyCallback(window, keyboard);
 		GLFW.glfwSetCursorPosCallback(window, cursor);
 		GLFW.glfwSetMouseButtonCallback(window, mouse);
+		GLFW.glfwSetScrollCallback(window, scroll);
 	}
 	
 	public void free() {
 		keyboard.free();
 		cursor.free();
 		mouse.free();
+		scroll.free();
 	}
 	
 
@@ -69,6 +81,14 @@ public class Input {
 
 	public double getMouseY() {
 		return mouseY;
+	}
+	
+	public double getScrollX() {
+		return scrollX;
+	}
+	
+	public double getScrollY() {
+		return scrollY;
 	}
 	
 }

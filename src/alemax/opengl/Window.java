@@ -1,24 +1,31 @@
 package alemax.opengl;
 
+import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFW;
-import org.lwjgl.glfw.GLFWMouseButtonCallback;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.glfw.GLFWWindowSizeCallback;
+import org.lwjgl.opengl.GL;
+import org.lwjgl.opengl.GL11;
 
 public class Window {
 	
 	private static final int STANDARD_WIDTH = 1280;
 	private static final int STANDARD_HEIGHT = 720;
 	private static final String STANDARD_TITLE = "Vox to TrainsMod";
+	private static final Vector4f STANDARD_REFRESH_COLOR = new Vector4f(0f, 0.7f, 1f, 1f);
 	//public static final int STANDARD_FRAMERATE = 60;
 	
 	private int[] width;
 	private int[] height;
 	private String title;
 	
+	private Vector4f refreshColor;
+	
 	private Input input;
 	
 	private long window;
+	
+	private GLFWWindowSizeCallback windowSizeCallback;
 	
 	private boolean isInit;
 	
@@ -29,6 +36,8 @@ public class Window {
 		width[0] = STANDARD_WIDTH;
 		height[0] = STANDARD_HEIGHT;
 		title = STANDARD_TITLE;
+		
+		refreshColor = STANDARD_REFRESH_COLOR;
 		
 		isInit = false;
 	}
@@ -55,10 +64,25 @@ public class Window {
 					GLFW.glfwShowWindow(window);
 					GLFW.glfwMakeContextCurrent(window);
 					
+					GL.createCapabilities();
+					GL11.glEnable(GL11.GL_DEPTH_TEST);
+					
 					GLFW.glfwSetWindowTitle(window, title);
 					GLFW.glfwSwapInterval(1);
 					
 					input = new Input(window);
+					
+					windowSizeCallback = new GLFWWindowSizeCallback() {
+						
+						@Override
+						public void invoke(long window, int w, int h) {
+							width[0] = w;
+							height[0] = h;
+							GL11.glViewport(0, 0, width[0], height[0]);
+						}
+					};
+					
+					GLFW.glfwSetWindowSizeCallback(window, windowSizeCallback);
 					
 					isInit = true;
 					
@@ -71,14 +95,19 @@ public class Window {
 		}
 	}
 	
-	public void refresh() {
+	public void startRender() {
 		if(isInit) {
+			GL11.glClearColor(refreshColor.x, refreshColor.y, refreshColor.z, refreshColor.w);
+			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 			
-			GLFW.glfwGetWindowSize(window, width, height);
+			//GLFW.glfwGetWindowSize(window, width, height);
 			
 			GLFW.glfwPollEvents();
-			GLFW.glfwSwapBuffers(window);;
 		}
+	}
+	
+	public void finishRender() {
+		GLFW.glfwSwapBuffers(window);;
 	}
 	
 	
@@ -115,6 +144,10 @@ public class Window {
 	public void setTitle(String title) {
 		this.title = title;
 		GLFW.glfwSetWindowTitle(window, title);
+	}
+	
+	public void setBackgroundColor(Vector4f backgroundColor) {
+		this.refreshColor = backgroundColor;
 	}
 	
 }

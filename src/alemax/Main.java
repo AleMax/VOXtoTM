@@ -31,15 +31,18 @@ public class Main {
 		//long lastFrame = System.nanoTime();
 		
 		while(!window.shouldClose()) {
-			long time = System.nanoTime();
-			window.refresh();
+			//long time = System.nanoTime();
 			
-			System.out.println(window.getWidth() + "\t" + window.getHeight());
+			window.startRender();
+			
+			//System.out.println(window.getInput().getScrollX() + "\t" + window.getInput().getScrollY());
 			
 			if(window.getInput().isKeyDown(GLFW.GLFW_KEY_ESCAPE)) {
 				break;
 			}
 			
+			
+			window.finishRender();
 			/*
 			long currentFrame = System.nanoTime();
 			System.out.println( 1_000_000_000 / (currentFrame - lastFrame));
