@@ -1,8 +1,5 @@
 package alemax.model;
 
-import java.util.ArrayList;
-
-import org.joml.Matrix3d;
 import org.joml.Matrix3f;
 import org.joml.Vector3d;
 

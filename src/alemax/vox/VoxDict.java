@@ -2,7 +2,7 @@ package alemax.vox;
 
 import java.util.HashMap;
 
-import alemax.ByteHandler;
+import alemax.util.ByteHandler;
 
 public class VoxDict extends VoxPart {
 

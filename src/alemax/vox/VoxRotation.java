@@ -51,7 +51,7 @@ public class VoxRotation {
 		else if(!indexTwo) thirdRow[1] = thirdNumber;
 		else if(!indexThree) thirdRow[2] = thirdNumber;
 		
-		float[][] matrixData = {firstRow, secondRow, thirdRow};
+		//float[][] matrixData = {firstRow, secondRow, thirdRow};
 		
 		//rotMatrix = MatrixUtils.createRealMatrix(matrixData);
 		rotMatrix = new Matrix3f(firstRow[0], firstRow[1], firstRow[2], secondRow[0], secondRow[1], secondRow[2], thirdRow[0], thirdRow[1], thirdRow[2]);

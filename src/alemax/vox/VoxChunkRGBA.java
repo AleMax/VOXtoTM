@@ -1,7 +1,7 @@
 package alemax.vox;
 
-import alemax.ByteHandler;
 import alemax.model.Color;
+import alemax.util.ByteHandler;
 
 public class VoxChunkRGBA extends VoxChunk {
 	

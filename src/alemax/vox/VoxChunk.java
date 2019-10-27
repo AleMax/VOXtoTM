@@ -1,7 +1,8 @@
 package alemax.vox;
 
 import java.util.ArrayList;
-import alemax.ByteHandler;
+
+import alemax.util.ByteHandler;
 
 public abstract class VoxChunk extends VoxPart {
 

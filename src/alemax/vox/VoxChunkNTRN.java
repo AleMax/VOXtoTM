@@ -1,6 +1,6 @@
 package alemax.vox;
 
-import alemax.ByteHandler;
+import alemax.util.ByteHandler;
 
 public class VoxChunkNTRN extends VoxChunk {
 

@@ -1,7 +1,7 @@
 package alemax.vox;
 
-import alemax.ByteHandler;
 import alemax.model.Voxel;
+import alemax.util.ByteHandler;
 
 public class VoxChunkXYZI extends VoxChunk {
 	

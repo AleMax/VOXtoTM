@@ -1,4 +1,4 @@
-package alemax;
+package alemax.util;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
