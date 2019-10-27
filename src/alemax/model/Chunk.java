@@ -2,11 +2,9 @@ package alemax.model;
 
 import java.util.ArrayList;
 
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-import org.apache.commons.math3.linear.ArrayRealVector;
-import org.apache.commons.math3.linear.MatrixUtils;
-import org.apache.commons.math3.linear.RealMatrix;
-import org.apache.commons.math3.linear.RealVector;
+import org.joml.Matrix3d;
+import org.joml.Matrix3f;
+import org.joml.Vector3d;
 
 public class Chunk {
 	
@@ -22,7 +20,8 @@ public class Chunk {
 	private int translateY; //Every private property has still the wrong y-z in it. (Z: gravity)
 	private int translateZ;
 	
-	private RealMatrix rotMatrix;
+	//private RealMatrix rotMatrix;
+	private Matrix3f rotMatrix;
 	
 	private Voxel[] originalVoxels;
 	
@@ -39,8 +38,9 @@ public class Chunk {
 		sizeY = 0;
 		sizeZ = 0;
 		
-		double[][] bytes = {{0,0,0},{0,0,0},{0,0,0}};
-		rotMatrix = MatrixUtils.createRealMatrix(bytes);
+		//double[][] bytes = {{0,0,0},{0,0,0},{0,0,0}};
+		//rotMatrix = MatrixUtils.createRealMatrix(bytes);
+		rotMatrix = new Matrix3f(0, 0, 0, 0, 0, 0, 0, 0, 0);
 	}
 	
 	public void setVoxels(Voxel[] voxels) {
@@ -55,7 +55,7 @@ public class Chunk {
 		}
 	}
 	
-	public void setRotation(RealMatrix rotMatrix) {
+	public void setRotation(Matrix3f rotMatrix) {
 		if(!baked) {
 			this.rotMatrix = rotMatrix;
 		}
@@ -79,15 +79,18 @@ public class Chunk {
 			}
 			
 			//Rotation:
-			Vector3D rotMiddlePoint = new Vector3D((sizeX / 2.0) - 0.5, (sizeZ / 2.0) - 0.5, (sizeY / 2.0) - 0.5); //Switchup intended again, cuz we have to make it wrong again here
+			//Vector3D rotMiddlePoint = new Vector3D((sizeX / 2.0) - 0.5, (sizeZ / 2.0) - 0.5, (sizeY / 2.0) - 0.5); //Switchup intended again, cuz we have to make it wrong again here
+			Vector3d rotMiddlePoint = new Vector3d((sizeX / 2.0) - 0.5, (sizeZ / 2.0) - 0.5, (sizeY / 2.0) - 0.5);
 			
 			for(int i = 0; i < originalVoxels.length; i++) {
-				double[] toMiddleArray = {originalVoxels[i].x - rotMiddlePoint.getX(),originalVoxels[i].y - rotMiddlePoint.getY(), originalVoxels[i].z - rotMiddlePoint.getZ()};
-				RealVector toMiddle = new ArrayRealVector(toMiddleArray);
-				RealVector rotated = rotMatrix.preMultiply(toMiddle);
-				voxels[i].x = (int) Math.round(originalVoxels[i].x + rotated.getEntry(0));
-				voxels[i].y = (int) Math.round(originalVoxels[i].x + rotated.getEntry(1));
-				voxels[i].z = (int) Math.round(originalVoxels[i].x + rotated.getEntry(2));
+				//double[] toMiddleArray = {originalVoxels[i].x - rotMiddlePoint.getX(),originalVoxels[i].y - rotMiddlePoint.getY(), originalVoxels[i].z - rotMiddlePoint.getZ()};
+				//RealVector toMiddle = new ArrayRealVector(toMiddleArray);
+				//RealVector rotated = rotMatrix.preMultiply(toMiddle);
+				Vector3d toMiddle = new Vector3d(originalVoxels[i].x - rotMiddlePoint.x, originalVoxels[i].y - rotMiddlePoint.y, originalVoxels[i].z - rotMiddlePoint.z);
+				Vector3d rotated = toMiddle.mul(rotMatrix);
+				voxels[i].x = (int) Math.round(originalVoxels[i].x + rotated.x);
+				voxels[i].y = (int) Math.round(originalVoxels[i].y + rotated.y);
+				voxels[i].z = (int) Math.round(originalVoxels[i].z + rotated.z);
 				voxels[i].i = originalVoxels[i].i;
 			}
 			

@@ -1,7 +1,6 @@
 package alemax.vox;
 
-import org.apache.commons.math3.linear.MatrixUtils;
-import org.apache.commons.math3.linear.RealMatrix;
+import org.joml.Matrix3f;
 
 //Because the rotation is stored in a VoxString this here just makes conversions
 //The code in here is the worst code ive ever written
@@ -12,7 +11,8 @@ import org.apache.commons.math3.linear.RealMatrix;
 //So all this above text is useless now, ill keep it anyway for history reasons...
 public class VoxRotation {
 
-	public RealMatrix rotMatrix;
+	//public RealMatrix rotMatrix;
+	public Matrix3f rotMatrix;
 	
 	public VoxRotation(byte i) {
 		boolean a = (i & 0x1) != 0;
@@ -32,13 +32,13 @@ public class VoxRotation {
 		if(c) indexSecondRow = 1;
 		else if(d) indexSecondRow = 2;
 		
-		double[] firstRow = {0, 0, 0};
-		double[] secondRow = {0, 0, 0};
-		double[] thirdRow = {0, 0, 0};
+		float[] firstRow = {0, 0, 0};
+		float[] secondRow = {0, 0, 0};
+		float[] thirdRow = {0, 0, 0};
 		
-		double firstNumber = (double) (e ? -1 : 1);
-		double secondNumber = (double) (f ? -1 : 1);
-		double thirdNumber = (double) (g ? -1 : 1);
+		float firstNumber = (e ? -1 : 1);
+		float secondNumber = (f ? -1 : 1);
+		float thirdNumber = (g ? -1 : 1);
 		
 		firstRow[indexFirstRow] = firstNumber;
 		secondRow[indexSecondRow] = secondNumber;
@@ -51,9 +51,10 @@ public class VoxRotation {
 		else if(!indexTwo) thirdRow[1] = thirdNumber;
 		else if(!indexThree) thirdRow[2] = thirdNumber;
 		
-		double[][] matrixData = {firstRow, secondRow, thirdRow};
+		float[][] matrixData = {firstRow, secondRow, thirdRow};
 		
-		rotMatrix = MatrixUtils.createRealMatrix(matrixData);
+		//rotMatrix = MatrixUtils.createRealMatrix(matrixData);
+		rotMatrix = new Matrix3f(firstRow[0], firstRow[1], firstRow[2], secondRow[0], secondRow[1], secondRow[2], thirdRow[0], thirdRow[1], thirdRow[2]);
 	}
 	
 	

@@ -3,9 +3,8 @@ package alemax.model;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-import org.apache.commons.math3.linear.MatrixUtils;
-import org.apache.commons.math3.linear.RealMatrix;
+import org.joml.Matrix3f;
+import org.joml.Vector3d;
 
 import alemax.vox.VoxChunk;
 import alemax.vox.VoxChunkMain;
@@ -44,31 +43,39 @@ public class Model {
 		for(VoxChunk voxChunk : main.childrenChunks) {
 			if(voxChunk instanceof VoxChunkNSHP) {
 				
-				ArrayList<Vector3D> translations = new ArrayList<Vector3D>();
-				ArrayList<RealMatrix> rotations = new ArrayList<RealMatrix>();
+				//ArrayList<Vector3D> translations = new ArrayList<Vector3D>();
+				//ArrayList<RealMatrix> rotations = new ArrayList<RealMatrix>();
+				ArrayList<Vector3d> translations = new ArrayList<Vector3d>();
+				ArrayList<Matrix3f> rotations = new ArrayList<Matrix3f>();
 				
 				int nodeID = ((VoxChunkNSHP) voxChunk).nodeID;
 				int modelID = ((VoxChunkNSHP) voxChunk).modelIDs[0];
 				
 				getHigherNodes(nodeID, translations, rotations);
 				
-				
+				/*
 				Vector3D translation = new Vector3D(0, 0, 0);
 				for(Vector3D trans : translations) {
 					translation.add(trans);
+				} */
+				Vector3d translation = new Vector3d(0, 0, 0);
+				for(Vector3d trans : translations) {
+					translation.add(trans);
 				}
 				
-				
-				RealMatrix rotation = null;
+				//RealMatrix rotation = null;
+				Matrix3f rotation = null;
 				if(rotations.size() == 0) {
-					double[][] bytes = {{0,0,0},{0,0,0},{0,0,0}};
-					rotation = MatrixUtils.createRealMatrix(bytes);
+					//double[][] bytes = {{0,0,0},{0,0,0},{0,0,0}};
+					//rotation = MatrixUtils.createRealMatrix(bytes);
+					rotation = new Matrix3f(0, 0, 0, 0, 0, 0, 0, 0, 0);
 				} else {
 					Collections.reverse(rotations); 
 					rotation = rotations.get(0);
 					if(rotations.size() > 1) {
 						for(int i = 1; i < rotations.size(); i++) {
-							rotation = rotation.multiply(rotations.get(i));
+							//rotation = rotation.multiply(rotations.get(i));
+							rotation = rotation.mul(rotations.get(i));
 						}			
 					}
 				}
@@ -78,7 +85,7 @@ public class Model {
 				chunks.get(chunks.size() - 1).setSize(initialChunks.get(modelID).getSizeX(), initialChunks.get(modelID).getSizeY(), initialChunks.get(modelID).getSizeZ());
 				chunks.get(chunks.size() - 1).setVoxels(initialChunks.get(modelID).getVoxels());
 				
-				chunks.get(chunks.size() - 1).setTranslation((int) Math.round(translation.getX()), (int) Math.round(translation.getY()), (int) Math.round(translation.getZ()));
+				chunks.get(chunks.size() - 1).setTranslation((int) Math.round(translation.x), (int) Math.round(translation.y), (int) Math.round(translation.z));
 				chunks.get(chunks.size() - 1).setRotation(rotation);
 				chunks.get(chunks.size() - 1).bake();
 				
@@ -86,8 +93,8 @@ public class Model {
 		}
 	}
 	
-	
-	private void getHigherNodes(int nodeID, ArrayList<Vector3D> translations, ArrayList<RealMatrix> rotations) {
+	//private void getHigherNodes(int nodeID, ArrayList<vector3D> translations, ArrayList<RealMatrix> rotations) {
+	private void getHigherNodes(int nodeID, ArrayList<Vector3d> translations, ArrayList<Matrix3f> rotations) {
 		for(VoxChunk voxChunk : main.childrenChunks) {
 			if(voxChunk instanceof VoxChunkNTRN) {
 				if(((VoxChunkNTRN) voxChunk).childNodeID == nodeID) {
@@ -105,7 +112,8 @@ public class Model {
 						
 						
 						String[] translationSplit = translation.split(" ");
-						translations.add(new Vector3D(Integer.parseInt(translationSplit[0]), Integer.parseInt(translationSplit[1]), Integer.parseInt(translationSplit[2]))); 
+						//translations.add(new Vector3D(Integer.parseInt(translationSplit[0]), Integer.parseInt(translationSplit[1]), Integer.parseInt(translationSplit[2]))); 
+						translations.add(new Vector3d(Integer.parseInt(translationSplit[0]), Integer.parseInt(translationSplit[1]), Integer.parseInt(translationSplit[2]))); 
 					}
 					
 					getHigherNodes(((VoxChunkNTRN) voxChunk).nodeID, translations, rotations);

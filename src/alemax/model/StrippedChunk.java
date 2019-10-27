@@ -1,7 +1,5 @@
 package alemax.model;
 
-import org.apache.commons.math3.linear.MatrixUtils;
-
 public class StrippedChunk {
 
 	private int sizeX;
