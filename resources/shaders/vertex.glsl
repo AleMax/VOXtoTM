@@ -5,9 +5,11 @@ layout(location = 2) in vec4 inColor;
 
 out vec4 color;
 
+uniform vec4 uniColor;
+
 void main() {
 
 	gl_Position = vec4(inPosition, 1.0);
-	color = inColor;
+	color = uniColor;
 
 }

@@ -29,6 +29,8 @@ public class ModelView {
 		model = new Renderable(vertices, indices);
 		model.loadToMemory();
 		
+		shader.setUniform("uniColor", new Vector4f(1f, 0f, 0f, 1f));
+		
 	}
 	
 	public void update() {

@@ -1,8 +1,14 @@
 package alemax.opengl;
 
+import java.nio.FloatBuffer;
+
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GLXARBGetProcAddress;
+import org.lwjgl.system.MemoryUtil;
 
 import alemax.util.ShaderHandler;
 
@@ -69,11 +75,28 @@ public class Shader {
 			System.err.println(GL20.glGetProgramInfoLog(program));
 			return;
 		}
-		
-		GL20.glDeleteShader(vertexID);
-		GL20.glDeleteShader(fragmentID);
-		
+
 	}
+	
+	private int getUniformLocation(String uniform) {
+		return GL20.glGetUniformLocation(program, uniform);
+	}
+	
+	public void setUniform(String uniform, Vector3f value) {
+		GL20.glUniform3f(getUniformLocation(uniform), value.x, value.y, value.z);
+	}
+	
+	public void setUniform(String uniform, Vector4f value) {
+		GL20.glUniform4f(getUniformLocation(uniform), value.x, value.y, value.z, value.w);
+	}
+	
+	public void setUniform(String uniform, Matrix4f value) {
+		FloatBuffer matrix = MemoryUtil.memAllocFloat(16);
+		value.get(matrix);
+		matrix.flip();
+		GL20.glUniformMatrix4fv(getUniformLocation(uniform), true, matrix);
+	}
+	
 	
 	public void bind() {
 		GL20.glUseProgram(program);
@@ -84,6 +107,10 @@ public class Shader {
 	}
 	
 	public void delete() {
+		GL20.glDetachShader(program, vertexID);
+		GL20.glDetachShader(program, fragmentID);
+		GL20.glDeleteShader(vertexID);
+		GL20.glDeleteShader(fragmentID);
 		GL20.glDeleteProgram(program);
 	}
 	
