@@ -3,13 +3,14 @@ package alemax.opengl;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
+import org.joml.Vector3f;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.system.MemoryUtil;
 
-public class Renderable {
+public class RenderableModel {
 	
 	private Vertex[] vertices;
 	private int[] indices;
@@ -19,12 +20,16 @@ public class Renderable {
 	private int positionBuffer;
 	private int normalBuffer;
 	private int colorBuffer;
-	
+
+	public Vector3f position;
+	public Vector3f rotation;
+	public Vector3f scale;
+
 	public enum VBOIndex {
 		POSITION(0),
 		NORMAL(1),
 		COLOR(2);
-		
+
 		private int numVal;
 
 		VBOIndex(int numVal) {
@@ -37,9 +42,13 @@ public class Renderable {
 	}
 
 	
-	public Renderable(Vertex[] vertices, int[] indices) {
+	public RenderableModel(Vertex[] vertices, int[] indices) {
 		this.indices = indices;
 		this.vertices = vertices;
+
+		this.position = new Vector3f(0,0,0);
+		this.rotation = new Vector3f(0,0,0);
+		this.scale = new Vector3f(1,1,1);
 	}
 	
 	public void loadToMemory() {
