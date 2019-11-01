@@ -26,8 +26,9 @@ public class ModelRenderer {
 		
 		shader.setUniform("uniColor", new Vector4f(1f, 1f, 1f, 1f));
 		shader.setUniform("modelMatrix", createModelMatrix(model));
+		shader.setUniform("viewMatrix", createViewMatrix(camera));
 		shader.setUniform("perspectiveMatrix", createPerspectiveMatrix(camera));
-		
+
 		GL11.glDrawElements(GL11.GL_TRIANGLES, model.getIndices().length, GL11.GL_UNSIGNED_INT, 0);
 
 		shader.unbind();
@@ -47,15 +48,32 @@ public class ModelRenderer {
 		mvp.rotate(model.rotation.z, 0,0,1);
 		mvp.scale(model.scale);
 
+		//mvp = new Matrix4f();
+
+		return mvp;
+	}
+
+
+	private Matrix4f createViewMatrix(Camera camera) {
+		Matrix4f mvp = new Matrix4f();
+
+		mvp.rotate(camera.rotation.x, 1,0,0);
+		mvp.rotate(camera.rotation.y, 0,1,0);
+		mvp.rotate(camera.rotation.z, 0,0,1);
+
+		Vector3f negated = new Vector3f(-camera.position.x, -camera.position.y, -camera.position.z);
+		mvp.translate(negated);
+
 		return mvp;
 	}
 
 	private Matrix4f createPerspectiveMatrix(Camera camera) {
 		Matrix4f mvp = new Matrix4f();
 
-		mvp.perspective(camera.getFOV(), camera.getAspectRatio(), camera.getNear(), camera.getFar());
+		mvp.setPerspective(camera.getFOV(), camera.getAspectRatio(), camera.getNear(), camera.getFar());
 
 		return mvp;
 	}
+
 	
 }

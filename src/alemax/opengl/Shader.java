@@ -96,7 +96,7 @@ public class Shader {
 		value.get(array);
 		matrix.put(array);
 		matrix.flip();
-		GL20.glUniformMatrix4fv(getUniformLocation(uniform), true, matrix);
+		GL20.glUniformMatrix4fv(getUniformLocation(uniform), false, matrix);
 	}
 	
 	

@@ -7,11 +7,12 @@ out vec4 color;
 
 uniform vec4 uniColor;
 uniform mat4 modelMatrix;
+uniform mat4 viewMatrix;
 uniform mat4 perspectiveMatrix;
 
 void main() {
 
-	gl_Position = modelMatrix * perspectiveMatrix * vec4(inPosition, 1.0);
-	color = uniColor;
+	gl_Position = perspectiveMatrix * viewMatrix * modelMatrix * vec4(inPosition, 1.0);
+	color = inColor;
 
 }
