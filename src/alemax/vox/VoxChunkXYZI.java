@@ -19,6 +19,7 @@ public class VoxChunkXYZI extends VoxChunk {
 			voxels[i].y = ByteHandler.getInt8(ByteHandler.getSubArray(voxData, index++, 1));
 			voxels[i].z = ByteHandler.getInt8(ByteHandler.getSubArray(voxData, index++, 1));
 			voxels[i].i = ByteHandler.getInt8(ByteHandler.getSubArray(voxData, index++, 1));
+			//System.out.println(voxels[i].i);
 		}
 		
 	}

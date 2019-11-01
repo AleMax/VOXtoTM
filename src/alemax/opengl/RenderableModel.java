@@ -100,7 +100,7 @@ public class RenderableModel {
 	}
 	
 	private void loadColors() {
-		FloatBuffer positions = MemoryUtil.memAllocFloat(vertices.length * 4);
+		FloatBuffer color = MemoryUtil.memAllocFloat(vertices.length * 4);
 		float[] colorData = new float[vertices.length * 4];
 		for(int i = 0; i < vertices.length; i++) {
 			colorData[i * 4] = vertices[i].color.x; 
@@ -108,12 +108,12 @@ public class RenderableModel {
 			colorData[i * 4 + 2] = vertices[i].color.z;
 			colorData[i * 4 + 3] = vertices[i].color.w;
 		}
-		positions.put(colorData);
-		positions.flip();
+		color.put(colorData);
+		color.flip();
 		
 		colorBuffer = GL15.glGenBuffers();
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, colorBuffer);
-		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, colorData, GL15.GL_STATIC_DRAW);
+		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, color, GL15.GL_STATIC_DRAW);
 		GL20.glVertexAttribPointer(VBOIndex.COLOR.value(), 4, GL11.GL_FLOAT, false, 0, 0);
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
 	}

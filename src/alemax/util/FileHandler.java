@@ -13,8 +13,6 @@ public class FileHandler {
 
 	
 	public byte[] readVoxFile(String filePath) {
-		
-		
 		try {
 			byte[] fileContent = Files.readAllBytes(Paths.get(filePath));
 			

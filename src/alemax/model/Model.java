@@ -15,13 +15,14 @@ import alemax.vox.VoxChunkRGBA;
 import alemax.vox.VoxChunkSize;
 import alemax.vox.VoxChunkXYZI;
 import alemax.vox.VoxRotation;
+import org.joml.Vector4f;
 
 public class Model {
 	
 	private ArrayList<StrippedChunk> initialChunks;
 	
 	public ArrayList<Chunk> chunks;
-	public Color[] colors;
+	public Vector4f[] colors;
 	
 	private VoxChunkMain main;
 	
@@ -79,7 +80,7 @@ public class Model {
 						}			
 					}
 				}
-				
+				rotation.transpose();
 				
 				chunks.add(new Chunk());
 				chunks.get(chunks.size() - 1).setSize(initialChunks.get(modelID).getSizeX(), initialChunks.get(modelID).getSizeY(), initialChunks.get(modelID).getSizeZ());
