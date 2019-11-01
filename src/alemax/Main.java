@@ -10,7 +10,7 @@ public class Main {
 		Window window = new Window();
 		window.init();
 		
-		ModelView modelView = new ModelView();
+		ModelView modelView = new ModelView(window);
 		
 		while(!window.shouldClose()) {
 			window.startRender();

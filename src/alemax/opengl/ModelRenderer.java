@@ -16,7 +16,7 @@ public class ModelRenderer {
 		this.shader = shader;
 	}
 	
-	public void renderModel(RenderableModel model) {
+	public void renderModel(RenderableModel model, Camera camera) {
 		GL30.glBindVertexArray(model.getVAO());
 		GL30.glEnableVertexAttribArray(RenderableModel.VBOIndex.POSITION.value());
 		GL30.glEnableVertexAttribArray(RenderableModel.VBOIndex.COLOR.value());
@@ -25,7 +25,8 @@ public class ModelRenderer {
 		shader.bind();
 		
 		shader.setUniform("uniColor", new Vector4f(1f, 1f, 1f, 1f));
-		shader.setUniform("mvpMatrix", createMVP(model));
+		shader.setUniform("modelMatrix", createModelMatrix(model));
+		shader.setUniform("perspectiveMatrix", createPerspectiveMatrix(camera));
 		
 		GL11.glDrawElements(GL11.GL_TRIANGLES, model.getIndices().length, GL11.GL_UNSIGNED_INT, 0);
 
@@ -37,7 +38,7 @@ public class ModelRenderer {
 		GL30.glBindVertexArray(0);
 	}
 
-	private Matrix4f createMVP(RenderableModel model) {
+	private Matrix4f createModelMatrix(RenderableModel model) {
 		Matrix4f mvp = new Matrix4f();
 
 		mvp.translate(model.position);
@@ -45,6 +46,14 @@ public class ModelRenderer {
 		mvp.rotate(model.rotation.y, 0,1,0);
 		mvp.rotate(model.rotation.z, 0,0,1);
 		mvp.scale(model.scale);
+
+		return mvp;
+	}
+
+	private Matrix4f createPerspectiveMatrix(Camera camera) {
+		Matrix4f mvp = new Matrix4f();
+
+		mvp.perspective(camera.getFOV(), camera.getAspectRatio(), camera.getNear(), camera.getFar());
 
 		return mvp;
 	}

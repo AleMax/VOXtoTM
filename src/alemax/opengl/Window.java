@@ -1,5 +1,6 @@
 package alemax.opengl;
 
+import alemax.util.ResizeListener;
 import org.joml.Vector4f;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWVidMode;
@@ -7,8 +8,13 @@ import org.lwjgl.glfw.GLFWWindowSizeCallback;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Window {
-	
+
+	private List<ResizeListener> resizeListenerList = new ArrayList<ResizeListener>();
+
 	private static final int STANDARD_WIDTH = 1280;
 	private static final int STANDARD_HEIGHT = 720;
 	private static final String STANDARD_TITLE = "Vox to TrainsMod";
@@ -79,6 +85,11 @@ public class Window {
 							width[0] = w;
 							height[0] = h;
 							GL11.glViewport(0, 0, width[0], height[0]);
+
+							for(ResizeListener listener : resizeListenerList) {
+								listener.windowResized(width[0], height[0]);
+							}
+
 						}
 					};
 					
@@ -94,7 +105,11 @@ public class Window {
 			}
 		}
 	}
-	
+
+	public void addResizeListener(ResizeListener listener) {
+		this.resizeListenerList.add(listener);
+	}
+
 	public void startRender() {
 		if(isInit) {
 			GL11.glClearColor(refreshColor.x, refreshColor.y, refreshColor.z, refreshColor.w);
