@@ -1,7 +1,10 @@
 package alemax.model;
 
+import java.util.concurrent.SynchronousQueue;
+
 import org.joml.Matrix3f;
 import org.joml.Vector3d;
+import org.joml.Vector3f;
 
 public class Chunk {
 	
@@ -47,8 +50,8 @@ public class Chunk {
 	public void setSize(int sizeX, int sizeY, int sizeZ) {
 		if(!baked) {
 			this.sizeX = sizeX;
-			this.sizeZ = sizeY; //Swap is intendet!! Dont ever change it, it is to make the y-z switch
-			this.sizeY = sizeZ;
+			this.sizeY = sizeY; 
+			this.sizeZ = sizeZ;
 		}
 	}
 	
@@ -77,7 +80,8 @@ public class Chunk {
 			
 			//Rotation:
 			//Vector3D rotMiddlePoint = new Vector3D((sizeX / 2.0) - 0.5, (sizeZ / 2.0) - 0.5, (sizeY / 2.0) - 0.5); //Switchup intended again, cuz we have to make it wrong again here
-			Vector3d rotMiddlePoint = new Vector3d((sizeX / 2.0) - 0.5, (sizeZ / 2.0) - 0.5, (sizeY / 2.0) - 0.5);
+			Vector3d rotMiddlePoint = new Vector3d((sizeX / 2.0) - 0.5, (sizeY / 2.0) - 0.5, (sizeZ / 2.0) - 0.5);
+			Vector3f vecToOrig = new Vector3f((float) -rotMiddlePoint.x, (float) -rotMiddlePoint.y, (float) -rotMiddlePoint.z);
 			
 			for(int i = 0; i < originalVoxels.length; i++) {
 				//double[] toMiddleArray = {originalVoxels[i].x - rotMiddlePoint.getX(),originalVoxels[i].y - rotMiddlePoint.getY(), originalVoxels[i].z - rotMiddlePoint.getZ()};
@@ -85,17 +89,18 @@ public class Chunk {
 				//RealVector rotated = rotMatrix.preMultiply(toMiddle);
 				Vector3d toMiddle = new Vector3d(originalVoxels[i].x - rotMiddlePoint.x, originalVoxels[i].y - rotMiddlePoint.y, originalVoxels[i].z - rotMiddlePoint.z);
 				Vector3d rotated = toMiddle.mul(rotMatrix);
-				voxels[i].x = (int) Math.round(originalVoxels[i].x + rotated.x);
-				voxels[i].y = (int) Math.round(originalVoxels[i].y + rotated.y);
-				voxels[i].z = (int) Math.round(originalVoxels[i].z + rotated.z);
+				vecToOrig.mul(rotMatrix);
+				voxels[i].x = (int) Math.round(rotMiddlePoint.x + rotated.x);
+				voxels[i].y = (int) Math.round(rotMiddlePoint.y + rotated.y);
+				voxels[i].z = (int) Math.round(rotMiddlePoint.z + rotated.z);
 				voxels[i].i = originalVoxels[i].i;
 			}
 			
 			//Translation:
 			for(int i = 0; i < originalVoxels.length; i++) {
-				voxels[i].x += translateX;
-				voxels[i].y += translateY;
-				voxels[i].z += translateZ;
+				voxels[i].x += (translateX - Math.round(sizeX / 2.0));
+				voxels[i].y += (translateY - Math.round(sizeY / 2.0));
+				voxels[i].z += (translateZ - Math.round(sizeZ / 2.0));
 			}
 			
 			//Adjusting Y-Z:
@@ -103,11 +108,16 @@ public class Chunk {
 			// X = X
 			// Y = -Z
 			// Z = Y
+			
+			
 			for(int i = 0; i < originalVoxels.length; i++) {
 				int oldY = voxels[i].y;
-				voxels[i].y += -voxels[i].z;
-				voxels[i].z = oldY;
+				voxels[i].y = voxels[i].z;
+				voxels[i].z = -oldY;
 			}
+			
+			this.sizeZ = sizeY; //Swap is intendet!! Dont ever change it, it is to make the y-z switch
+			this.sizeY = sizeZ;
 		}
 	}
 	

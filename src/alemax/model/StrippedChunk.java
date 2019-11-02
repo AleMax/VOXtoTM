@@ -23,8 +23,8 @@ public class StrippedChunk {
 	
 	public void setSize(int sizeX, int sizeY, int sizeZ) {
 		this.sizeX = sizeX;
-		this.sizeZ = sizeY; //Swap is intendet!! Dont ever change it, it is to make the y-z switch
-		this.sizeY = sizeZ;
+		this.sizeZ = sizeZ; //Swap is intendet!! Dont ever change it, it is to make the y-z switch
+		this.sizeY = sizeY;
 	}
 	
 	public int getSizeX() {

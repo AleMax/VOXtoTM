@@ -10,7 +10,7 @@ public class Main {
 	public static void main(String[] args) {
 
 		FileHandler fileHandler = new FileHandler();
-		Model model = new Model(fileHandler.readVoxFile("test.vox"));
+		Model model = new Model(fileHandler.readVoxFile("ice2.vox"));
 
 		Window window = new Window();
 		window.init();

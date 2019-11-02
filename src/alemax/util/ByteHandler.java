@@ -13,11 +13,14 @@ public class ByteHandler {
 	}
 	
 	//Actually useless...
-	public static byte getInt8(byte[] bytes) {
+	public static short getInt8(byte[] bytes) {
 		if(bytes.length == 1) {
-			return bytes[0];
+			short number = bytes[0];
+			if(number < 0)
+				number += 256;
+			return number;
 		}
-		return (byte) 0;
+		return 0;
 	}
 	
 	public static String getString(byte[] bytes) {

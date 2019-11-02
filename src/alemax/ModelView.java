@@ -23,7 +23,7 @@ public class ModelView {
 		this.renderer = new ModelRenderer(shader);
 
 		this.camera = new Camera(window);
-		this.camera.position = new Vector3f(0,0,20);
+		this.camera.position = new Vector3f(0,0,200);
 
 		/*
 		Vertex[] vertices = {

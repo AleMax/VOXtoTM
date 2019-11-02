@@ -19,8 +19,10 @@ public class ModelUtil {
 
         for(Chunk chunk : model.chunks) {
             for(Voxel voxel : chunk.voxels) {
-                //Vector4f color = model.colors[voxel.i];
-                Vector4f color = new Vector4f(1,0,0,1);
+                Vector4f color = new Vector4f(model.colors[voxel.i]);
+                color.mul(1f / 255);
+                color.w = 1f;
+                //Vector4f color = new Vector4f(1,0,0,1);
 
                 vertices.add(new Vertex(new Vector3f(voxel.x, voxel.y, voxel.z), color));
                 vertices.add(new Vertex(new Vector3f(voxel.x + 1, voxel.y, voxel.z), color));
